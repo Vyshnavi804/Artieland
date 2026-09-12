@@ -1,23 +1,16 @@
 import express from "express";
 import multer from "multer";
-import path from "path";
 import User from "../models/User.js";
 import Post from "../models/Post.js";
 import { requireAuth, optionalAuth } from "../middleware/auth.js";
 import { getLevel, calculatePoints, calculateBadges } from "../utils/gamification.js";
 import { notify } from "../utils/notify.js";
+import { avatarStorage } from "../config/cloudinary.js";
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "avatar-" + unique + path.extname(file.originalname));
-  },
-});
 const avatarUpload = multer({
-  storage,
+  storage: avatarStorage,
   limits: { fileSize: 4 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) cb(null, true);
@@ -84,7 +77,7 @@ router.put("/me/update", requireAuth, async (req, res) => {
 router.post("/me/avatar", requireAuth, avatarUpload.single("avatar"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No image uploaded" });
-    const profilePic = `/uploads/${req.file.filename}`;
+    const profilePic = req.file.path;
     const user = await User.findByIdAndUpdate(
       req.userId,
       { $set: { profilePic } },

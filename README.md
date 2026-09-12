@@ -52,15 +52,22 @@ npm run dev
 
 Opens on `http://localhost:5173`. It's already configured (see `vite.config.js`) to proxy `/api` and `/uploads` requests to the backend on port 5000, so no extra config needed.
 
-## How images are stored right now
+## How images are stored
 
-For simplicity, uploaded images are saved to `backend/uploads/` on disk and served as static files. This works great for local development. When you're ready to deploy for real:
+Images (both post artwork and profile pictures) are stored on **Cloudinary**, not on the server's disk. This matters because most free hosting platforms (Render, Railway, etc.) wipe local files on every restart or redeploy — local disk storage would work locally but silently lose every uploaded image once deployed.
 
-1. Sign up for [Cloudinary](https://cloudinary.com/) (free tier).
-2. Replace the `multer.diskStorage` in `backend/routes/posts.js` with `multer-storage-cloudinary`.
-3. Store the returned Cloudinary URL in `post.images` instead of a local path.
+To set this up:
+1. Sign up for a free [Cloudinary](https://cloudinary.com/) account.
+2. From your Cloudinary dashboard, copy your **Cloud name**, **API Key**, and **API Secret**.
+3. Add them to `backend/.env`:
+   ```
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   ```
+4. Restart the backend. New uploads will now go straight to Cloudinary — post images land in the `artieland/posts` folder there, profile pictures in `artieland/avatars`.
 
-This is a ~20 line change and the rest of the app doesn't need to know the difference.
+Posts created before this switch (if any) will still have local `/uploads/...` image paths saved in MongoDB — those will break once deployed, since local files won't be there anymore. Simplest fix: just re-upload/re-post that older artwork after the switch.
 
 ## What's deliberately NOT in Phase 1
 

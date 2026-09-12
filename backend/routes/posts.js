@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import path from "path";
+import { postImageStorage } from "../config/cloudinary.js";
 import Post, { POST_CATEGORIES, REACTION_LABELS } from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
@@ -10,17 +10,10 @@ import { notify } from "../utils/notify.js";
 
 const router = express.Router();
 
-// --- Image upload setup (stores files locally in /uploads for now) ---
-// To go to production, swap this out for Cloudinary storage - see README.
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  },
-});
+// --- Image upload setup: images are stored on Cloudinary, not the server's disk,
+// so they survive restarts/redeploys on hosting platforms with ephemeral filesystems. ---
 const upload = multer({
-  storage,
+  storage: postImageStorage,
   limits: { fileSize: 8 * 1024 * 1024 }, // 8MB per image
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) cb(null, true);
@@ -120,7 +113,7 @@ router.post("/", requireAuth, upload.array("images", 4), async (req, res) => {
 
     const post = await Post.create({
       user: req.userId,
-      images: req.files.map((f) => `/uploads/${f.filename}`),
+      images: req.files.map((f) => f.path),
       title,
       description,
       category,
@@ -227,7 +220,7 @@ router.put("/:id", requireAuth, upload.array("images", 4), async (req, res) => {
       post.tags = tags.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean);
     }
     if (req.files && req.files.length > 0) {
-      post.images = req.files.map((f) => `/uploads/${f.filename}`);
+      post.images = req.files.map((f) => f.path);
     }
 
     await post.save();

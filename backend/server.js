@@ -1,6 +1,6 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -13,8 +13,6 @@ import commentRoutes from "./routes/comments.js";
 import collectionRoutes from "./routes/collections.js";
 import messageRoutes from "./routes/messages.js";
 import notificationRoutes from "./routes/notifications.js";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
