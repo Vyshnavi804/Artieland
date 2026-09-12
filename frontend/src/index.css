@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas: 255 251 242;       /* #FFFBF2 warm paper */
+  --color-canvas-soft: 255 243 228;  /* #FFF3E4 */
+  --color-surface: 255 255 255;      /* #FFFFFF cards/inputs */
+  --color-ink: 36 27 51;             /* #241B33 deep plum-black text */
+  --color-ultramarine: 76 95 255;    /* #4C5FFF */
+  --color-violet: 139 62 245;        /* #8B3EF5 */
+  --color-cadmium: 214 145 10;       /* darker gold for AA contrast on light bg */
+  --color-alizarin: 214 45 62;       /* darker coral-red for AA contrast on light bg */
+  --color-sage: 15 140 128;          /* darker teal for AA contrast on light bg */
+  --color-blossom: 255 143 206;      /* #FF8FCE */
+}
+
+.dark {
+  --color-canvas: 22 18 33;          /* #161221 deep plum night sky */
+  --color-canvas-soft: 30 25 44;     /* #1E192C */
+  --color-surface: 34 28 49;         /* #221C31 cards */
+  --color-ink: 240 235 250;          /* #F0EBFA near-white text */
+  --color-ultramarine: 130 150 255;  /* lighter blue for dark bg contrast */
+  --color-violet: 176 130 255;
+  --color-cadmium: 255 200 90;
+  --color-alizarin: 255 130 140;
+  --color-sage: 90 220 200;
+  --color-blossom: 255 170 220;
+}
+
+body {
+  font-family: "Work Sans", sans-serif;
+  background-color: rgb(var(--color-canvas));
+  background-image:
+    radial-gradient(circle at 10% 5%, rgba(76, 95, 255, 0.08), transparent 40%),
+    radial-gradient(circle at 90% 15%, rgba(255, 92, 108, 0.08), transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(139, 62, 245, 0.07), transparent 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke-width='3' stroke-linecap='round'%3E%3C!-- palette --%3E%3Cpath d='M30 40 Q10 40 12 60 Q14 82 34 84 Q42 84 44 76 Q46 70 52 70 Q64 70 64 56 Q64 36 30 40 Z' stroke='%238B3EF5' opacity='0.16'/%3E%3Ccircle cx='24' cy='52' r='3' fill='%23FF5C6C' opacity='0.18'/%3E%3Ccircle cx='38' cy='46' r='3' fill='%23FFB627' opacity='0.18'/%3E%3Ccircle cx='48' cy='56' r='3' fill='%234C5FFF' opacity='0.18'/%3E%3C!-- paintbrush --%3E%3Cpath d='M120 30 L150 60' stroke='%23FF5C6C' opacity='0.16'/%3E%3Cpath d='M150 60 L162 72 Q166 76 162 80 Q158 84 154 80 L142 68' stroke='%231FB6A4' opacity='0.16'/%3E%3C!-- paint drips --%3E%3Ccircle cx='180' cy='150' r='7' stroke='%23FFB627' opacity='0.16'/%3E%3Ccircle cx='190' cy='150' r='3' fill='%23FFB627' opacity='0.14'/%3E%3C!-- squiggle brush stroke --%3E%3Cpath d='M20 150 Q35 130 52 150 Q65 166 48 176' stroke='%234C5FFF' opacity='0.15'/%3E%3C!-- star sparkle --%3E%3Cpath d='M110 130 L114 140 L124 142 L114 146 L110 156 L106 146 L96 142 L106 140 Z' fill='%23FF8FCE' opacity='0.16'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  transition: background-color 0.3s ease;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.skeleton {
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+  background-color: rgb(var(--color-ink) / 0.08);
+}
+
+@keyframes img-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.img-fade-in {
+  animation: img-fade-in 0.4s ease;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #4C5FFF, #8B3EF5, #FF5C6C);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.art-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.art-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(139, 62, 245, 0.3);
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+.heart-pop {
+  animation: heart-pop 0.35s ease;
+}
