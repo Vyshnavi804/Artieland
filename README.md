@@ -10,7 +10,7 @@ Instagram-for-artists. This is a working full-stack app covering:
 - Comment + reply to comments
 - Follow / unfollow artists
 - Search (by username, artwork title, or tag)
-- Bonus from Phase 2: star ratings (1–5) are already wired in, since it's the app's signature feature
+ 
 
 ## Folder structure
 
@@ -83,34 +83,33 @@ Per the roadmap: no badges/levels, no challenges, no portfolio auto-page, no com
 ## Phase 3 additions
 
 ### Must-haves
-- 🗑 **Delete post** — owner-only, confirmation popup, redirects to feed. Cascades: deletes the post's comments and removes it from any collections it was saved into.
-- ✏️ **Edit post** — change title, description, category, tags, and optionally replace the images. "edit" link shows only to the post's owner on the post detail page.
-- ⬅️ **Back button** — on Post Detail, Profile, and Search pages (`navigate(-1)`).
-- 📬 **Contact page** — real page with name/email/subject/message, saved to MongoDB (`Message` model). No admin viewer built yet — messages just accumulate in the `messages` collection for now; query them directly in Atlas if needed.
-- 👤 **Edit profile** — bio, favorite style, Instagram, website, location, and a real profile picture upload (stored the same way as post images).
+- **Delete post** — owner-only, confirmation popup, redirects to feed. Cascades: deletes the post's comments and removes it from any collections it was saved into.
+- **Edit post** — change title, description, category, tags, and optionally replace the images. "edit" link shows only to the post's owner on the post detail page.
+- **Back button** — on Post Detail, Profile, and Search pages (`navigate(-1)`).
+- **Contact page** — real page with name/email/subject/message, saved to MongoDB (`Message` model). No admin viewer built yet — messages just accumulate in the `messages` collection for now; query them directly in Atlas if needed.
+- **Edit profile** — bio, favorite style, Instagram, website, location, and a real profile picture upload (stored the same way as post images).
 
 ### Nice-to-haves
-- ❤️ **Like animation** — heart pops on like, filled vs outline heart.
-- 💬 **Comments** — delete your own comments (and any replies to them), newest-first ordering at the top level.
-- 🔖 **Save posts** — save/unsave, dedicated Saved page (from Phase 2, unchanged).
-- 📂 **Collections** — from Phase 2, unchanged.
-- 🔍 **Better search** — matches in artist usernames and post titles are highlighted.
-- 🏷 **Trending tags** — top 10 most-used tags shown on the feed, clickable to filter.
+- **Like animation** — heart pops on like, filled vs outline heart.
+- **Comments** — delete your own comments (and any replies to them), newest-first ordering at the top level.
+- **Save posts** — save/unsave, dedicated Saved page (from Phase 2, unchanged).
+- **Collections** — from Phase 2, unchanged.
+- **Better search** — matches in artist usernames and post titles are highlighted.
+- **Trending tags** — top 10 most-used tags shown on the feed, clickable to filter.
 
 ### Portfolio-level features
 - **Follow/Unfollow** — from Phase 1, unchanged, shown alongside follower/following counts.
-- 🔔 **Notifications** — likes, comments, follows, and reactions on your posts. Bell icon with unread badge; polls every 30s (no websockets yet — fine for this scale, worth revisiting if it grows).
-- ⏳ **Loading polish** — skeleton cards while the feed loads, images fade in once loaded instead of popping in.
-- 🍞 **Toast notifications** — from Phase 2, unchanged (used for share/save confirmations).
+- **Notifications** — likes, comments, follows, and reactions on your posts. Bell icon with unread badge; polls every 30s (no websockets yet — fine for this scale, worth revisiting if it grows).
+- **Loading polish** — skeleton cards while the feed loads, images fade in once loaded instead of popping in.
+- **Toast notifications** — from Phase 2, unchanged (used for share/save confirmations).
 
 ### Also added
-- 🏆 **Artist levels** — Beginner Artist → Creative Explorer → Master Illustrator → Legendary Artist, computed live from uploads/likes/ratings (not stored, so it's always accurate).
+- **Artist levels** — Beginner Artist → Creative Explorer → Master Illustrator → Legendary Artist, computed live from uploads/likes/ratings (not stored, so it's always accurate).
 - 🎖 **Achievement badges** — First Upload, 100 Likes, Color Master, Sketch King, Watercolor Expert, Community Favorite — all computed the same way, shown on the profile page.
-- 👏 **Appreciation reactions** — Amazing / Creative / Inspiring / Beautiful Colors, a richer alternative to a plain Like. One reaction per user per post.
-- 🎨 **Background pattern** — a subtle tiled SVG of brush strokes and paint dabs behind the whole site (very low opacity, doesn't fight with content).
+- **Appreciation reactions** — Amazing / Creative / Inspiring / Beautiful Colors, a richer alternative to a plain Like. One reaction per user per post.
+ 
 
-**Not included this round:** monthly art challenges + community voting (explicitly deferred), and an admin panel for managing contact messages or creating challenges later — there's no admin-role system yet, worth adding before either of those go further.
-
+ 
 ### New backend endpoints
 - `PUT /api/posts/:id` — edit a post
 - `DELETE /api/posts/:id` — delete a post
@@ -122,11 +121,11 @@ Per the roadmap: no badges/levels, no challenges, no portfolio auto-page, no com
 - `POST /api/messages` — contact form submission
 - `GET /api/notifications`, `POST /api/notifications/read-all`
 
-- 🌙 **Dark mode** — toggle button (☾/☀) in the navbar. Persisted in localStorage, also respects your OS's dark mode preference on first visit. Implemented via CSS variables, so it applies across the whole app automatically.
-- 🔖 **Save/bookmark** — bookmark icon on every post card and post detail page. View everything you've saved under **Saved** in the navbar.
-- 📁 **Collections** — organize saved art into named folders. "+ collection" button on any post opens a picker to add it to an existing collection or create a new one on the spot. Manage them under **Collections** in the navbar.
-- 🔗 **Share** — "share" button copies a direct link to the post to your clipboard, with a small toast confirmation.
-- 🎨 **Animations** — posts fade/slide in with a staggered entrance, cards lift on hover, the like button pops when you like something, and modals/popovers animate in smoothly (via `framer-motion`).
+- **Dark mode** — toggle button (☾/☀) in the navbar. Persisted in localStorage, also respects your OS's dark mode preference on first visit. Implemented via CSS variables, so it applies across the whole app automatically.
+- **Save/bookmark** — bookmark icon on every post card and post detail page. View everything you've saved under **Saved** in the navbar.
+- **Collections** — organize saved art into named folders. "+ collection" button on any post opens a picker to add it to an existing collection or create a new one on the spot. Manage them under **Collections** in the navbar.
+- **Share** — "share" button copies a direct link to the post to your clipboard, with a small toast confirmation.
+- **Animations** — posts fade/slide in with a staggered entrance, cards lift on hover, the like button pops when you like something, and modals/popovers animate in smoothly (via `framer-motion`).
 
 ### New backend endpoints
 - `POST /api/posts/:id/save` — toggle bookmark
